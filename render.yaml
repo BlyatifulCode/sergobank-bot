@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: sergobank-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: STEPAN_ID
+        sync: false
+      - key: SERGEY_ID
+        sync: false
+      - key: NEURAL_API_KEY
+        sync: false
+      - key: NEURAL_ENABLED
+        value: "True"
+      - key: NEURAL_PROVIDER
+        value: "gemini"
+      - key: NEURAL_MODEL
+        value: "gemini-3.1-flash-lite"
+      - key: INITIAL_DEBT
+        value: "4000"
+      - key: INTEREST_RATE
+        value: "0.02"
+      - key: INTEREST_START_DATE
+        value: "2026-08-01"
+      - key: REMINDER_INTERVAL
+        value: "14400"
+      - key: DEBTOR_NAME
+        value: "Степан"
+      - key: OWNER_NAME
+        value: "Сергей"
+      - key: BANK_NAME
+        value: "СергоБанк"

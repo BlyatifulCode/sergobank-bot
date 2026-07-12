@@ -4,7 +4,9 @@ import sys
 import io
 import logging
 import requests
+import os
 from datetime import datetime
+from aiohttp import web
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -379,6 +381,18 @@ async def send_reminders():
 
 async def main():
     global bot
+
+    async def health(request):
+        return web.Response(text="СергоБанк работает!")
+
+    app = web.Application()
+    app.router.add_get("/", health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", int(os.getenv("PORT", 8080)))
+    await site.start()
+    log_event(f"Web server started on port {os.getenv('PORT', 8080)}")
+
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     log_event(f"{BANK_NAME} started!")
     log_event(f"Neural: {'ON' if NEURAL_GLOBAL else 'OFF'} ({NEURAL_PROVIDER})")
